@@ -7,6 +7,8 @@
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-debian-amd64
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-freebsd-amd64
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-macos
+* https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-windows-amd64
+* https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-windows-i386
 
 # EXAMPLE
 
