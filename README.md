@@ -21,10 +21,11 @@ Hello World!
 ## Recommended
 
 * [vagrant-rsync-back](https://github.com/smerrill/vagrant-rsync-back) assists in copying artifacts from the guest to the host
+* [bundler](https://bundler.io) (for `rake`)
 
 # BUILDTIME REQUIREMENTS
 
-* [Vagrant](https://www.vagrantup.com)
+* [Vagrant](https://www.vagrantup.com) 2.2.2+
 * The [VirtualBox](https://www.virtualbox.org) hypervisor provider
 
 # BUILD AND TEST BOXES
