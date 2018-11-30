@@ -115,6 +115,8 @@ task :test_debian_amd64 => [
         :chdir => "debian-amd64#{File::SEPARATOR}test"
     sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
         :chdir => "debian-amd64#{File::SEPARATOR}test"
+    sh 'vagrant halt',
+        :chdir => "debian-amd64#{File::SEPARATOR}test"
 end
 
 task :test_centos_amd64 => [
@@ -124,6 +126,8 @@ task :test_centos_amd64 => [
     sh 'vagrant up',
         :chdir => "centos-amd64#{File::SEPARATOR}test"
     sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+        :chdir => "centos-amd64#{File::SEPARATOR}test"
+    sh 'vagrant halt',
         :chdir => "centos-amd64#{File::SEPARATOR}test"
 end
 
@@ -135,6 +139,8 @@ task :test_centos_i386 => [
         :chdir => "centos-i386#{File::SEPARATOR}test"
     sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
         :chdir => "centos-i386#{File::SEPARATOR}test"
+    sh 'vagrant halt',
+        :chdir => "centos-i386#{File::SEPARATOR}test"
 end
 
 task :test_freebsd_amd64 => [
@@ -144,6 +150,8 @@ task :test_freebsd_amd64 => [
     sh 'vagrant up',
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
     sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+        :chdir => "freebsd-amd64#{File::SEPARATOR}test"
+    sh 'vagrant halt',
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
 end
 
