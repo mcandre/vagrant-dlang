@@ -6,6 +6,7 @@
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-centos-i386
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-debian-amd64
 * https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-freebsd-amd64
+* https://app.vagrantup.com/mcandre/boxes/vagrant-dlang-macos
 
 # EXAMPLE
 

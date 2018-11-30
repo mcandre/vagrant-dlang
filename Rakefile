@@ -21,6 +21,10 @@ BOX_BASENAME_FREEBSD_AMD64 = "#{BOX_PREFIX}-freebsd-amd64"
 BOX_FREEBSD_AMD64 = "#{BOX_BASENAME_FREEBSD_AMD64}.box"
 SHORT_DESCRIPTION_FREEBSD_AMD64 = 'a Vagrant box for building and testing D binaries for FreeBSD x86_64'
 
+BOX_BASENAME_MACOS = "#{BOX_PREFIX}-macos"
+BOX_MACOS = "#{BOX_BASENAME_MACOS}.box"
+SHORT_DESCRIPTION_MACOS = 'a Vagrant box for building and testing D binaries for macOS'
+
 task :default => 'test'
 
 task :box_debian_amd64 => [
@@ -71,11 +75,24 @@ task :box_freebsd_amd64 => [
         :chdir => 'freebsd-amd64'
 end
 
+task :box_macos => [
+    "macos#{File::SEPARATOR}Vagrantfile",
+    "macos#{File::SEPARATOR}bootstrap.sh",
+    "macos#{File::SEPARATOR}export.Vagrantfile",
+    :clean_box_macos
+] do
+    sh 'vagrant up',
+        :chdir => 'macos'
+    sh "vagrant package --output #{BOX_MACOS} --vagrantfile export.Vagrantfile",
+        :chdir => 'macos'
+end
+
 task :boxes => [
     :box_debian_amd64,
     :box_centos_amd64,
     :box_centos_i386,
-    :box_freebsd_amd64
+    :box_freebsd_amd64,
+    :box_macos
 ] do
 end
 
@@ -99,11 +116,17 @@ task :import_freebsd_amd64 => [] do
         :chdir => 'freebsd-amd64'
 end
 
+task :import_macos => [] do
+    sh "vagrant box add --force --name #{BOX_NAMESPACE}/#{BOX_BASENAME_MACOS} #{BOX_MACOS}",
+        :chdir => 'macos'
+end
+
 task :import => [
     :import_debian_amd64,
     :import_centos_amd64,
     :import_centos_i386,
-    :import_freebsd_amd64
+    :import_freebsd_amd64,
+    :import_macos
 ] do
 end
 
@@ -155,11 +178,24 @@ task :test_freebsd_amd64 => [
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
 end
 
+task :test_macos => [
+    "macos#{File::SEPARATOR}test#{File::SEPARATOR}Vagrantfile",
+    "macos#{File::SEPARATOR}test#{File::SEPARATOR}hello.d"
+] do
+    sh 'vagrant up',
+        :chdir => "macos#{File::SEPARATOR}test"
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+        :chdir => "macos#{File::SEPARATOR}test"
+    sh 'vagrant halt',
+        :chdir => "macos#{File::SEPARATOR}test"
+end
+
 task :test => [
     :test_debian_amd64,
     :test_centos_amd64,
     :test_centos_i386,
-    :test_freebsd_amd64
+    :test_freebsd_amd64,
+    :test_macos
 ] do
 end
 
@@ -183,11 +219,17 @@ task :publish_freebsd_amd64 => [] do
         :chdir => 'freebsd-amd64'
 end
 
+task :publish_macos => [] do
+    sh "vagrant cloud publish #{BOX_NAMESPACE}/#{BOX_BASENAME_MACOS} --force --release --short-description \"#{SHORT_DESCRIPTION_MACOS}\" --version-description \"#{VERSION_DESCRIPTION}\" #{VERSION} #{PROVIDER} #{BOX_MACOS}",
+        :chdir => 'macos'
+end
+
 task :publish => [
     :publish_debian_amd64,
     :publish_centos_amd64,
     :publish_centos_i386,
-    :publish_freebsd_amd64
+    :publish_freebsd_amd64,
+    :publish_macos
 ] do
 end
 
@@ -197,7 +239,8 @@ end
 
 task :clean_debian_amd64 => [:clean_box_debian_amd64] do
     begin
-        sh 'vagrant destroy -f', :chdir => 'debian-amd64'
+        sh 'vagrant destroy -f',
+            :chdir => 'debian-amd64'
     rescue
     end
 
@@ -219,7 +262,8 @@ end
 
 task :clean_centos_amd64 => [:clean_box_centos_amd64] do
     begin
-        sh 'vagrant destroy -f', :chdir => 'centos-amd64'
+        sh 'vagrant destroy -f',
+            :chdir => 'centos-amd64'
     rescue
     end
 
@@ -241,7 +285,8 @@ end
 
 task :clean_centos_i386 => [:clean_box_centos_i386] do
     begin
-        sh 'vagrant destroy -f', :chdir => 'centos-i386'
+        sh 'vagrant destroy -f',
+            :chdir => 'centos-i386'
     rescue
     end
 
@@ -263,7 +308,8 @@ end
 
 task :clean_freebsd_amd64 => [:clean_box_freebsd_amd64] do
     begin
-        sh 'vagrant destroy -f', :chdir => 'freebsd-amd64'
+        sh 'vagrant destroy -f',
+            :chdir => 'freebsd-amd64'
     rescue
     end
 
@@ -279,10 +325,34 @@ task :clean_freebsd_amd64 => [:clean_box_freebsd_amd64] do
     end
 end
 
+task :clean_box_macos => [] do
+    Dir.glob("macos#{File::SEPARATOR}*.box").each { |path| File.delete path }
+end
+
+task :clean_macos => [:clean_box_macos] do
+    begin
+        sh 'vagrant destroy -f',
+            :chdir => 'macos'
+    rescue
+    end
+
+    begin
+        sh 'vagrant destroy -f',
+            :chdir => "macos#{File::SEPARATOR}test"
+    rescue
+    end
+
+    begin
+        Dir.glob("macos#{File::SEPARATOR}**#{File::SEPARATOR}.vagrant").each { |path| FileUtils.rm_r path }
+    rescue
+    end
+end
+
 task :clean => [
     :clean_debian_amd64,
     :clean_centos_amd64,
     :clean_centos_i386,
-    :clean_freebsd_amd64
+    :clean_freebsd_amd64,
+    :clean_macos
 ] do
 end
