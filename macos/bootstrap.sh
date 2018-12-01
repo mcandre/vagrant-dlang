@@ -1,2 +1,6 @@
-#!/bin/sh
-brew install dmd
+#!/bin/bash
+set -euo pipefail
+
+brew install \
+    dmd \
+    dub

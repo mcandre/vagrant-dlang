@@ -7,31 +7,31 @@ BOX_PREFIX = 'vagrant-dlang'
 
 BOX_BASENAME_DEBIAN_AMD64 = "#{BOX_PREFIX}-debian-amd64"
 BOX_DEBIAN_AMD64 = "#{BOX_BASENAME_DEBIAN_AMD64}.box"
-SHORT_DESCRIPTION_DEBIAN_AMD64 = 'a Vagrant box for building and testing D binaries for GNU/Linux (Debian) x86_64'
+SHORT_DESCRIPTION_DEBIAN_AMD64 = 'a GNU/Linux (Debian) x86_64 Vagrant box with D compiler + dub'
 
 BOX_BASENAME_CENTOS_AMD64 = "#{BOX_PREFIX}-centos-amd64"
 BOX_CENTOS_AMD64 = "#{BOX_BASENAME_CENTOS_AMD64}.box"
-SHORT_DESCRIPTION_CENTOS_AMD64 = 'a Vagrant box for building and testing D binaries for GNU/Linux (RHEL) x86_64'
+SHORT_DESCRIPTION_CENTOS_AMD64 = 'a GNU/Linux (RHEL) x86_64 Vagrant box with D compiler + dub'
 
 BOX_BASENAME_CENTOS_I386 = "#{BOX_PREFIX}-centos-i386"
 BOX_CENTOS_I386 = "#{BOX_BASENAME_CENTOS_I386}.box"
-SHORT_DESCRIPTION_CENTOS_I386 = 'a Vagrant box for building and testing D binaries for GNU/Linux (RHEL) x86'
+SHORT_DESCRIPTION_CENTOS_I386 = 'a GNU/Linux (RHEL) x86 Vagrant box with D compiler + dub'
 
 BOX_BASENAME_FREEBSD_AMD64 = "#{BOX_PREFIX}-freebsd-amd64"
 BOX_FREEBSD_AMD64 = "#{BOX_BASENAME_FREEBSD_AMD64}.box"
-SHORT_DESCRIPTION_FREEBSD_AMD64 = 'a Vagrant box for building and testing D binaries for FreeBSD x86_64'
+SHORT_DESCRIPTION_FREEBSD_AMD64 = 'a FreeBSD x86_64 Vagrant box with D compiler + dub'
 
 BOX_BASENAME_MACOS = "#{BOX_PREFIX}-macos"
 BOX_MACOS = "#{BOX_BASENAME_MACOS}.box"
-SHORT_DESCRIPTION_MACOS = 'a Vagrant box for building and testing D binaries for macOS'
+SHORT_DESCRIPTION_MACOS = 'a macOS Vagrant box with D compiler + dub'
 
 BOX_BASENAME_WINDOWS_AMD64 = "#{BOX_PREFIX}-windows-amd64"
 BOX_WINDOWS_AMD64 = "#{BOX_BASENAME_WINDOWS_AMD64}.box"
-SHORT_DESCRIPTION_WINDOWS_AMD64 = 'a Vagrant box for building and testing D binaries for Windows x86_64'
+SHORT_DESCRIPTION_WINDOWS_AMD64 = 'a Windows x86_64 Vagrant box with D compiler + dub'
 
 BOX_BASENAME_WINDOWS_I386 = "#{BOX_PREFIX}-windows-i386"
 BOX_WINDOWS_I386 = "#{BOX_BASENAME_WINDOWS_I386}.box"
-SHORT_DESCRIPTION_WINDOWS_I386 = 'a Vagrant box for building and testing D binaries for Windows x86'
+SHORT_DESCRIPTION_WINDOWS_I386 = 'a Windows x86 Vagrant box with D compiler + dub'
 
 task :default => 'test'
 
@@ -182,7 +182,7 @@ task :test_debian_amd64 => [
 ] do
     sh 'vagrant up',
         :chdir => "debian-amd64#{File::SEPARATOR}test"
-    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello && dub fetch dscanner && dub run dscanner -- --styleCheck"',
         :chdir => "debian-amd64#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "debian-amd64#{File::SEPARATOR}test"
@@ -194,7 +194,7 @@ task :test_centos_amd64 => [
 ] do
     sh 'vagrant up',
         :chdir => "centos-amd64#{File::SEPARATOR}test"
-    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello && dub fetch dscanner && dub run dscanner -- --styleCheck"',
         :chdir => "centos-amd64#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "centos-amd64#{File::SEPARATOR}test"
@@ -206,7 +206,7 @@ task :test_centos_i386 => [
 ] do
     sh 'vagrant up',
         :chdir => "centos-i386#{File::SEPARATOR}test"
-    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello && dub fetch dscanner && dub run dscanner -- --styleCheck"',
         :chdir => "centos-i386#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "centos-i386#{File::SEPARATOR}test"
@@ -218,7 +218,7 @@ task :test_freebsd_amd64 => [
 ] do
     sh 'vagrant up',
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
-    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello && dub fetch dscanner && dub run dscanner -- --styleCheck"',
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "freebsd-amd64#{File::SEPARATOR}test"
@@ -230,7 +230,7 @@ task :test_macos => [
 ] do
     sh 'vagrant up',
         :chdir => "macos#{File::SEPARATOR}test"
-    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello"',
+    sh 'vagrant ssh -c "cd /vagrant && dmd hello.d && ./hello && dub fetch dscanner && dub run dscanner -- --styleCheck"',
         :chdir => "macos#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "macos#{File::SEPARATOR}test"
@@ -242,7 +242,7 @@ task :test_windows_amd64 => [
 ] do
     sh 'vagrant up',
         :chdir => "windows-amd64#{File::SEPARATOR}test"
-    sh 'vagrant ssh --no-tty -c "powershell -Command \"cd /vagrant; dmd hello.d; .\\hello\""',
+    sh 'vagrant ssh --no-tty -c "powershell -Command \"cd /vagrant; dmd hello.d; .\\hello; dub fetch dscanner; dub run dscanner -- --styleCheck\""',
         :chdir => "windows-amd64#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "windows-amd64#{File::SEPARATOR}test"
@@ -254,7 +254,7 @@ task :test_windows_i386 => [
 ] do
     sh 'vagrant up',
         :chdir => "windows-i386#{File::SEPARATOR}test"
-    sh 'vagrant ssh --no-tty -c "powershell -Command \"cd /vagrant; dmd hello.d; .\\hello\""',
+    sh 'vagrant ssh --no-tty -c "powershell -Command \"cd /vagrant; dmd hello.d; .\\hello; dub fetch dscanner; dub run dscanner -- --styleCheck\""',
         :chdir => "windows-i386#{File::SEPARATOR}test"
     sh 'vagrant halt',
         :chdir => "windows-i386#{File::SEPARATOR}test"
