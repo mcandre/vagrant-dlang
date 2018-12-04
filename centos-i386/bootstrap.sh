@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eEuo pipefail
 
 sudo yum update -y
 sudo yum install -y http://downloads.dlang.org/releases/2.x/2.083.0/dmd-2.083.0-0.fedora.i386.rpm
