@@ -37,7 +37,7 @@ task :default => 'test'
 
 task :box_debian_amd64 => [
     "debian-amd64#{File::SEPARATOR}Vagrantfile",
-    "debian-amd64#{File::SEPARATOR}bootstrap.sh",
+    "debian-amd64#{File::SEPARATOR}bootstrap",
     "debian-amd64#{File::SEPARATOR}export.Vagrantfile",
     :clean_box_debian_amd64
 ] do
@@ -49,7 +49,7 @@ end
 
 task :box_centos_amd64 => [
     "centos-amd64#{File::SEPARATOR}Vagrantfile",
-    "centos-amd64#{File::SEPARATOR}bootstrap.sh",
+    "centos-amd64#{File::SEPARATOR}bootstrap",
     "centos-amd64#{File::SEPARATOR}export.Vagrantfile",
     :clean_box_centos_amd64
 ] do
@@ -61,7 +61,7 @@ end
 
 task :box_centos_i386 => [
     "centos-i386#{File::SEPARATOR}Vagrantfile",
-    "centos-i386#{File::SEPARATOR}bootstrap.sh",
+    "centos-i386#{File::SEPARATOR}bootstrap",
     "centos-i386#{File::SEPARATOR}export.Vagrantfile",
     :clean_box_centos_i386
 ] do
@@ -73,7 +73,7 @@ end
 
 task :box_freebsd_amd64 => [
     "freebsd-amd64#{File::SEPARATOR}Vagrantfile",
-    "freebsd-amd64#{File::SEPARATOR}bootstrap.sh",
+    "freebsd-amd64#{File::SEPARATOR}bootstrap",
     "freebsd-amd64#{File::SEPARATOR}export.Vagrantfile",
     :clean_box_freebsd_amd64
 ] do
@@ -85,7 +85,7 @@ end
 
 task :box_macos => [
     "macos#{File::SEPARATOR}Vagrantfile",
-    "macos#{File::SEPARATOR}bootstrap.sh",
+    "macos#{File::SEPARATOR}bootstrap",
     "macos#{File::SEPARATOR}export.Vagrantfile",
     :clean_box_macos
 ] do
