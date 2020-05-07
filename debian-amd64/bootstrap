@@ -1,6 +1,6 @@
 #!/bin/bash
-set -euo pipefail
-IFS=$'\n\t '
+unset IFS
+set -eEuo pipefail
 
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends curl ca-certificates
